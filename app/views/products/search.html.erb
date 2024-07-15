@@ -1,0 +1,22 @@
+<div class="container mx-auto">
+  <h1 class="text-xl font-bold my-4">Search Results</h1>
+  <p>Your search for "<%= params[:query] %>" found <%= @products.total_count %> products.</p>
+
+  <% if @products.any? %>
+    <div class="grid grid-cols-2 gap-4">
+      <% @products.each do |product| %>
+        <div class="bg-white shadow-md rounded p-4">
+          <p class="border px-4 py-2"><strong>ID:</strong> <%= product.id %></p>
+          <p class="border px-4 py-2"><strong>Name:</strong> <%= link_to product.name, product_path(product), class: "text-blue-500 hover:underline" %></p>
+          <p class="border px-4 py-2"><strong>Price:</strong> <%= product.price %></p>
+          <p class="border px-4 py-2"><strong>Category:</strong> <%= product.category.name %></p>
+        </div>
+      <% end %>
+    </div>
+    <div class="mt-4">
+      <%= paginate @products %>
+    </div>
+  <% else %>
+    <p>No results found.</p>
+  <% end %>
+</div>
