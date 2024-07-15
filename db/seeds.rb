@@ -26,6 +26,8 @@ end
   )
 end
 
+
+
 # Seed About and Contact pages
 About.find_or_create_by!(title: "About Us") do |about|
   about.content = "Winnipeg Fashion Hub is a well-established retail business located in Winnipeg, Manitoba. With a team of 20 dedicated employees, the company has been in operation for over 10 years. Winnipeg Fashion Hub specializes in selling high-quality fashion apparel including clothing, accessories, and footwear. The business currently sells its products through a physical retail store and a basic online catalog, and now seeks to expand its online presence with a comprehensive e-commerce platform."
