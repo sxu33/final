@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  # Routes for the customer views
   resources :products, only: [:index, :show] do
     collection do
       get 'search'
@@ -10,5 +11,9 @@ Rails.application.routes.draw do
 
   resources :categories, only: [:index, :show]
 
+  get 'about', to: 'about#show'
+  get 'contact', to: 'contact#show'
+
+  # Root path
   root 'products#index'
 end

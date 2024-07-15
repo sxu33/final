@@ -1,13 +1,19 @@
 require 'faker'
 
+# Clear existing data
+Product.delete_all
+Category.delete_all
+About.delete_all
+Contact.delete_all
+
 # Seed Categories
-categories = ["Clothing", "Accessories", "Footwear"]
+categories = ["Clothing", "Accessories", "Footwear", "Hats", "Bags", "Jewelry", "Watches", "Sunglasses"]
 categories.each do |category_name|
   Category.find_or_create_by!(name: category_name)
 end
 
 # Seed Products
-10.times do
+100.times do
   category = Category.order('RANDOM()').first
   Product.create!(
     name: Faker::Commerce.product_name,
