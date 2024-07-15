@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Product Show</title>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+  <%= csrf_meta_tags %>
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-4xl mx-auto bg-white p-6 shadow-md rounded w-full">
+    <h1 class="text-3xl font-bold mb-4"><%= @product.name %></h1>
+    <div class="space-y-2">
+      <p><strong>ID:</strong> <%= @product.id %></p>
+      <p><strong>Category:</strong> <%= link_to @product.category.name, category_path(@product.category), class: "text-blue-500 hover:underline" %></p>
+      <p><strong>Price:</strong> <%= @product.price %></p>
+      <p class="break-words"><strong>Description:</strong> <%= @product.description %></p>
+      <p><strong>On Sale:</strong> <%= @product.on_sale %></p>
+      <p><strong>New:</strong> <%= @product.new %></p>
+      <p><strong>Recently Updated:</strong> <%= @product.recently_updated %></p>
+    </div>
+  </div>
+</body>
+</html>
