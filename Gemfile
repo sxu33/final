@@ -70,3 +70,6 @@ group :test do
 end
 gem 'kaminari'
 gem 'faker'
+gem 'devise'
+gem 'activeadmin'
+gem 'sassc', '~> 2.0'

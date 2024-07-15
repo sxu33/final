@@ -34,3 +34,4 @@ end
 Contact.find_or_create_by!(title: "Contact Us") do |contact|
   contact.content = "If you have any questions or need further information, please feel free to contact us at contact@winnipegfashionhub.com or call us at (204) 123-4567. Our customer service team is available Monday through Friday, 9:00 AM to 5:00 PM."
 end
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
