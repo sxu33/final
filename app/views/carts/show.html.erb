@@ -1,0 +1,44 @@
+<div class="container mx-auto">
+  <h1 class="text-xl font-bold my-4">Shopping Cart</h1>
+
+  <% if @cart.cart_items.any? %>
+    <table class="min-w-full bg-white">
+      <thead>
+        <tr>
+          <th class="py-2">Product</th>
+          <th class="py-2">Price</th>
+          <th class="py-2">Quantity</th>
+          <th class="py-2">Total</th>
+          <th class="py-2">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @cart.cart_items.each do |item| %>
+          <tr>
+            <td class="border px-4 py-2"><%= item.product.name %></td>
+            <td class="border px-4 py-2"><%= number_to_currency(item.product.price) %></td>
+            <td class="border px-4 py-2">
+              <%= form_with url: update_item_cart_path(product_id: item.product.id), method: :patch, local: true do %>
+                <%= hidden_field_tag :product_id, item.product.id %>
+                <div class="flex items-center">
+                  <%= number_field_tag :quantity, item.quantity, min: 1, class: "text-center w-12 mx-2" %>
+                  <%= submit_tag 'Update', class: "hidden" %>
+                  <%= button_to 'Add to Cart', update_item_cart_path(product_id: item.product.id, quantity: item.quantity), method: :patch, class: "text-blue-500 hover:underline ml-2" %>
+                </div>
+              <% end %>
+            </td>
+            <td class="border px-4 py-2"><%= number_to_currency(item.total_price) %></td>
+            <td class="border px-4 py-2">
+              <%= button_to 'Remove', remove_item_cart_path(product_id: item.product.id), method: :delete, class: "text-blue-500 hover:underline" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <div class="mt-4">
+      <h2 class="text-2xl">Total: <%= number_to_currency(@cart.total_price) %></h2>
+    </div>
+  <% else %>
+    <p>Your cart is empty.</p>
+  <% end %>
+</div>

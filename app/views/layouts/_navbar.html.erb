@@ -1,3 +1,4 @@
+<!-- app/views/layouts/application.html.erb -->
 <nav class="bg-gray-800 text-white fixed w-full top-0 z-50">
   <div class="container mx-auto flex justify-between items-center p-4">
     <div class="flex space-x-4">
@@ -47,6 +48,7 @@
         <%= link_to 'Login', new_user_session_path, class: "nav-link hover:bg-gray-700 px-3 py-2 rounded" %>
         <%= link_to 'Sign up', new_user_registration_path, class: "nav-link hover:bg-gray-700 px-3 py-2 rounded" %>
       <% end %>
+      <%= link_to 'Cart', cart_path, class: "nav-link hover:bg-gray-700 px-3 py-2 rounded" %>
     </div>
   </div>
 </nav>

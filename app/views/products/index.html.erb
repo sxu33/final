@@ -9,9 +9,10 @@
           <div class="w-full h-48 bg-gray-200 rounded"></div>
         <% end %>
         <div class="mt-4">
-          <p class="border px-4 py-2"><strong>Name:</strong> <%= link_to product.name, product_path(product), class: "text-blue-500 hover:underline" %></p>
+            <p class="border px-4 py-2"><strong>Name:</strong> <%= link_to product.name, product_path(product), class: "text-blue-500 hover:underline" %></p>
           <p class="border px-4 py-2"><strong>Category:</strong> <%= product.category.name %></p>
           <p class="border px-4 py-2"><strong>Price:</strong> <%= product.price %></p>
+          <%= button_to 'Add to Cart', add_item_cart_path(product_id: product.id), method: :post, class: "mt-2 bg-blue-500 text-white p-2 rounded" %>
         </div>
       </div>
     <% end %>
