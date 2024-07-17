@@ -108,10 +108,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_16_114921) do
     t.decimal "price"
     t.integer "category_id", null: false
     t.boolean "on_sale"
-    t.boolean "new"
-    t.boolean "recently_updated"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "recently_updated"
+    t.boolean "new"
     t.index ["category_id"], name: "index_products_on_category_id"
   end
 

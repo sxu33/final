@@ -19,7 +19,18 @@ ActiveAdmin.register Product do
   #   permitted
   # end
 
-
+index do
+    selectable_column
+    id_column
+    column :name
+    column :description
+    column :price
+    column :category
+    column :on_sale
+    column :created_at
+    column :updated_at
+    actions
+  end
   form do |f|
     f.inputs do
       f.input :name

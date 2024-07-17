@@ -10,9 +10,7 @@ Rails.application.routes.draw do
   resources :products, only: [:index, :show] do
     collection do
       get 'search'
-      get 'on_sale'
-      get 'new_arrivals'
-      get 'recently_updated'
+      get 'on_sale' 
     end
   end
 

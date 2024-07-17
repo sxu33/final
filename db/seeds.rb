@@ -21,8 +21,7 @@ end
     price: Faker::Commerce.price(range: 10.0..100.0),
     category: category,
     on_sale: [true, false].sample,
-    new: [true, false].sample,
-    recently_updated: [true, false].sample
+    
   )
 end
 
