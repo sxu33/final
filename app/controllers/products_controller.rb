@@ -1,6 +1,16 @@
 class ProductsController < ApplicationController
   def index
-    @products = Product.page(params[:page]).per(10)
+    @sort_by = params[:sort_by]
+    @products = case @sort_by
+                when 'on_sale'
+                  Product.where(on_sale: true)
+                when 'new_arrivals'
+                  Product.where('created_at >= ?', 3.days.ago)
+                when 'recently_updated'
+                  Product.where('updated_at >= ?', 3.days.ago)
+                else
+                  Product.all
+                end.page(params[:page]).per(10)
   end
 
   def show
@@ -18,15 +28,5 @@ class ProductsController < ApplicationController
     end
   end
 
-  def on_sale
-    @products = Product.where(on_sale: true).page(params[:page]).per(10)
-  end
-
-  def new_arrivals
-    @products = Product.where(new: true).page(params[:page]).per(10)
-  end
-
-  def recently_updated
-    @products = Product.where(recently_updated: true).page(params[:page]).per(10)
-  end
+  
 end

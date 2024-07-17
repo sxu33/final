@@ -1,24 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Product Show</title>
-  <%= stylesheet_link_tag 'application', media: 'all' %>
-  <%= javascript_include_tag 'application' %>
-  <%= csrf_meta_tags %>
-</head>
-<body class="bg-gray-100 p-6">
-  <div class="max-w-4xl mx-auto bg-white p-6 shadow-md rounded w-full">
-    <h1 class="text-3xl font-bold mb-4"><%= @product.name %></h1>
-    <div class="space-y-2">
-      <p><strong>ID:</strong> <%= @product.id %></p>
+<div class="container mx-auto">
+  <h1 class="text-xl font-bold my-4"><%= @product.name %></h1>
+  <div class="bg-white shadow-md rounded p-4 flex">
+    <% if @product.image.attached? %>
+      <%= image_tag @product.image, class: "w-48 h-48 object-cover rounded mr-8" %>
+    <% else %>
+      <div class="w-48 h-48 bg-gray-200 rounded mr-8"></div>
+    <% end %>
+    <div class="ml-8">
+      <p class="mt-4"><strong>Price:</strong> <%= number_to_currency(@product.price) %></p>
       <p><strong>Category:</strong> <%= link_to @product.category.name, category_path(@product.category), class: "text-blue-500 hover:underline" %></p>
-      <p><strong>Price:</strong> <%= @product.price %></p>
-      <p class="break-words"><strong>Description:</strong> <%= @product.description %></p>
-      <p><strong>On Sale:</strong> <%= @product.on_sale %></p>
-      <p><strong>New:</strong> <%= @product.new %></p>
-      <p><strong>Recently Updated:</strong> <%= @product.recently_updated %></p>
+      <p class="mt-4"><strong>Description:</strong> <%= @product.description %></p>
+      <p><strong>On Sale:</strong> <%= @product.on_sale ? 'Yes' : 'No' %></p>
+      <%= button_to 'Add to Cart', add_item_cart_path(product_id: @product.id), method: :post, class: "mt-4 bg-blue-500 text-white p-2 rounded" %>
     </div>
-    <%= button_to 'Add to Cart', add_item_cart_path(product_id: @product.id), method: :post, class: "mt-4 bg-blue-500 text-white p-2 rounded" %>
   </div>
-</body>
-</html>
+</div>

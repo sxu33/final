@@ -5,9 +5,11 @@ ActiveAdmin.register Product do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
+  remove_filter :carts
+  remove_filter :cart_items
   remove_filter :image_attachment
   remove_filter :image_blob
-  permit_params :name, :description, :price, :category_id, :on_sale, :new, :recently_updated, :image
+  permit_params :name, :description, :price, :category_id, :on_sale, :new, :recently_updated, :image, cart_items:[:id, :cart_id, :product_id, :quantity, :destroy]
   #
   # or
   #

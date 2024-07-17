@@ -1,5 +1,15 @@
 <div class="container mx-auto">
+
+  
   <h1 class="text-xl font-bold my-4">Product List</h1>
+
+  <div class="flex justify-between items-center my-4">
+    <h1 class="text-xl font-bold">Products</h1>
+    <%= form_with url: products_path, method: :get, local: true, class: "flex items-center" do %>
+      <label for="sort_by" class="mr-2">Sort by:</label>
+      <%= select_tag :sort_by, options_for_select([['Default', ''], ['On Sale', 'on_sale'], ['New Arrivals', 'new_arrivals'], ['Recently Updated', 'recently_updated']], @sort_by), onchange: 'this.form.submit();', class: "form-select" %>
+    <% end %>
+  </div>
   <div class="grid grid-cols-4 gap-4">
     <% @products.each do |product| %>
       <div class="bg-white shadow-md rounded p-4">

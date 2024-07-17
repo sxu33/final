@@ -1,6 +1,6 @@
 <div class="container mx-auto">
   <h1 class="text-xl font-bold my-4">Category List</h1>
-  <div class="grid grid-cols-2 gap-4">
+  <div class="grid grid-cols-4 gap-4">
     <% @categories.each do |category| %>
       <div class="bg-white shadow-md rounded p-4">
         <p class="border px-4 py-2"><strong>Name:</strong> <%= link_to category.name, category_path(category), class: "text-blue-500 hover:underline" %></p>

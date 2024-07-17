@@ -29,4 +29,12 @@ class Cart < ApplicationRecord
   def total_price
     cart_items.to_a.sum { |item| item.total_price }
   end
+
+   def self.ransackable_attributes(auth_object = nil)
+    ["id", "user_id", "created_at", "updated_at"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["user", "cart_items", "products"]
+  end
 end
