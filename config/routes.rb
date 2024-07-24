@@ -1,9 +1,16 @@
 Rails.application.routes.draw do
+  get 'addresses/new'
+  get 'addresses/create'
+  get 'addresses/edit'
+  get 'addresses/update'
+  get 'addresses/destroy'
   get 'carts/show'
   get 'carts/add_item'
   get 'carts/remove_item'
   get 'carts/update_item'
-  devise_for :users
+  devise_for :users, controllers: { registrations: 'users/registrations' }
+  resource :user, only: [:show], as: :user_account
+  resources :addresses, except: [:index, :show]
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   # Routes for the customer views
@@ -27,4 +34,6 @@ Rails.application.routes.draw do
 
   # Root path
   root 'products#index'
+
+
 end

@@ -30,7 +30,7 @@
       <% end %>
       
       <% if user_signed_in? %>
-        <%= link_to 'Account', edit_user_registration_path, class: "nav-link hover:bg-gray-700 px-3 py-2 rounded" %>
+        <%= link_to 'Account', user_account_path, class: "nav-link hover:bg-gray-700 px-3 py-2 rounded" %>
         <%= button_to 'Logout', destroy_user_session_path, method: :delete, class: "nav-link hover:bg-gray-700 px-3 py-2 rounded", data: { confirm: "Are you sure?" } %>
       <% else %>
         <%= link_to 'Login', new_user_session_path, class: "nav-link hover:bg-gray-700 px-3 py-2 rounded" %>

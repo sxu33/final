@@ -1,0 +1,31 @@
+<div class="container mx-auto mt-8">
+  <h1 class="text-xl font-bold mb-4">New Address</h1>
+
+  <%= form_for(@address) do |f| %>
+    <div class="mb-4">
+      <%= f.label :street, class: "block text-gray-700" %>
+      <%= f.text_field :street, class: "mt-1 block w-full p-2 border rounded" %>
+    </div>
+
+    <div class="mb-4">
+      <%= f.label :city, class: "block text-gray-700" %>
+      <%= f.text_field :city, class: "mt-1 block w-full p-2 border rounded" %>
+    </div>
+
+    <div class="mb-4">
+      <%= f.label :province_id, "Province", class: "block text-gray-700" %>
+      <%= f.collection_select :province_id, Province.all, :id, :name, {}, class: "mt-1 block w-full p-2 border rounded" %>
+    </div>
+
+    <div class="mb-4">
+      <%= f.label :postal_code, class: "block text-gray-700" %>
+      <%= f.text_field :postal_code, class: "mt-1 block w-full p-2 border rounded" %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Create Address", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+    </div>
+  <% end %>
+
+  <%= link_to 'Back', user_account_path, class: "text-blue-500 hover:underline mt-4 inline-block" %>
+</div>
