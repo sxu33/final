@@ -10,8 +10,8 @@
         <p><%= address.street %>, <%= address.city %>, <%= address.province.name %>, <%= address.postal_code %></p>
         <div class="mt-2">
           <%= link_to 'Edit', edit_address_path(address), class: "text-blue-500 hover:underline" %> |
-          <%= link_to 'Delete', address, method: :delete, data: { confirm: 'Are you sure?' }, class: "text-red-500 hover:underline" %>
-        </div>
+            <%= button_to 'Delete', address_path(address), method: :delete, form: { data: { turbo_confirm: 'Are you sure?' } }, class: "text-red-500 hover:underline" %>
+          </div>
       </li>
     <% end %>
   </ul>

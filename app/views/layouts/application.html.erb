@@ -11,7 +11,11 @@
   <body class="bg-gray-100">
     <%= render 'layouts/navbar' %>
     <main class="container mx-auto mt-28 px-5">
+        <% flash.each do |type, message| %>
+  <div class="flash <%= type %>"><%= message %></div>
+<% end %>
       <%= yield %>
+      
     </main>
   </body>
 </html>

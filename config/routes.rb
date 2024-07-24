@@ -1,39 +1,33 @@
 Rails.application.routes.draw do
-  get 'addresses/new'
-  get 'addresses/create'
-  get 'addresses/edit'
-  get 'addresses/update'
-  get 'addresses/destroy'
-  get 'carts/show'
-  get 'carts/add_item'
-  get 'carts/remove_item'
-  get 'carts/update_item'
+  # Devise routes for users and admin_users
   devise_for :users, controllers: { registrations: 'users/registrations' }
-  resource :user, only: [:show], as: :user_account
-  resources :addresses, except: [:index, :show]
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
-  # Routes for the customer views
-  resources :products, only: [:index, :show] do
-    collection do
-      get 'search'
-      get 'on_sale' 
-    end
-  end
 
-  resources :categories, only: [:index, :show]
+  # User account and addresses management
+  resource :user, only: [:show], as: :user_account
+  resources :addresses, except: [:index, :show]
 
-   resource :cart, only: [:show] do
+  # Cart management
+  resource :cart, only: [:show] do
     post 'add_item', to: 'carts#add_item'
     delete 'remove_item', to: 'carts#remove_item'
     patch 'update_item', to: 'carts#update_item'
   end
-  
+
+  # Products and categories management
+  resources :products, only: [:index, :show] do
+    collection do
+      get 'search'
+      get 'on_sale'
+    end
+  end
+  resources :categories, only: [:index, :show]
+
+  # Static pages
   get 'about', to: 'about#show'
   get 'contact', to: 'contact#show'
 
   # Root path
   root 'products#index'
-
-
 end
