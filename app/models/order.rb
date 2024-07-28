@@ -9,6 +9,8 @@ class Order < ApplicationRecord
   validates :status, presence: true
   enum status: { unpaid: 0, paid: 1, shipped: 2 }
 
+   before_save :update_total_price_and_tax
+
   def tax_amount
     total_price * (gst_rate + pst_rate + hst_rate)
   end
@@ -17,6 +19,11 @@ class Order < ApplicationRecord
     total_price + tax_amount
   end
 
+   def update_total_price_and_tax
+    self.total_price = order_items.sum(&:total_price)
+    self.tax_amount = total_price * (gst_rate + pst_rate + hst_rate)
+    self.grand_total = total_price + tax_amount
+  end
   def self.ransackable_attributes(auth_object = nil)
     ["id", "user_id", "address_id", "total_price", "status", "gst_rate", "pst_rate", "hst_rate", "created_at", "updated_at"]
   end

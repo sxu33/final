@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_28_061029) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_28_151427) do
   create_table "abouts", force: :cascade do |t|
     t.text "content"
     t.datetime "created_at", null: false
@@ -135,6 +135,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_28_061029) do
     t.decimal "gst_rate"
     t.decimal "pst_rate"
     t.decimal "hst_rate"
+    t.decimal "tax_amount"
+    t.decimal "grand_total"
     t.index ["address_id"], name: "index_orders_on_address_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end

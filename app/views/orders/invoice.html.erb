@@ -14,7 +14,7 @@
     <h2 class="text-xl font-bold mb-2">Order Items</h2>
     <ul>
       <% @order.order_items.each do |item| %>
-        <li><%= item.product.name %> - <%= item.quantity %> x <%= number_to_currency(item.unit_price) %> = <%= number_to_currency(item.quantity * item.unit_price) %></li>
+        <li><%= item.product.name %> - <%= item.quantity %> x <%= number_to_currency(item.unit_price) %> = <%= number_to_currency(item.total_price) %></li>
       <% end %>
     </ul>
   </div>

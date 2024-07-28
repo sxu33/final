@@ -30,7 +30,7 @@
         <h3 class="text-lg font-bold mt-2">Order Items:</h3>
         <ul>
           <% order.order_items.each do |item| %>
-            <li><%= item.product.name %> - <%= item.quantity %> x <%= number_to_currency(item.unit_price) %> = <%= number_to_currency(item.quantity * item.unit_price) %></li>
+            <li><%= item.product.name %> - <%= item.quantity %> x <%= number_to_currency(item.unit_price) %> = <%= number_to_currency(item.total_price) %></li>
           <% end %>
         </ul>
       </li>

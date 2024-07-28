@@ -33,9 +33,10 @@ class OrdersController < ApplicationController
     @order.pst_rate = tax_rate.pst
     @order.hst_rate = tax_rate.hst
 
-
     if @order.save
       create_order_items
+      @order.update_total_price_and_tax
+      @order.save
       current_user.cart.cart_items.destroy_all
       redirect_to invoice_order_path(@order), notice: 'Order was successfully created.'
     else

@@ -1,6 +1,5 @@
-# app/admin/orders.rb
 ActiveAdmin.register Order do
-  permit_params :user_id, :address_id, :status, order_items_attributes: [:id, :product_id, :quantity, :_destroy]
+  permit_params :user_id, :address_id, :status, :gst_rate, :pst_rate, :hst_rate, order_items_attributes: [:id, :product_id, :quantity, :unit_price, :_destroy]
 
   index do
     selectable_column
@@ -8,27 +7,38 @@ ActiveAdmin.register Order do
     column :user
     column :address
     column :total_price
+    column :gst_rate
+    column :pst_rate
+    column :hst_rate
     column :tax_amount
     column :grand_total
     column :status
+    column "Products" do |order|
+      order.order_items.map { |item| item.product.name }.join(", ")
+    end
     actions
   end
 
   filter :user
   filter :address
   filter :total_price
-  filter :tax_amount
-  filter :grand_total
+  filter :gst_rate
+  filter :pst_rate
+  filter :hst_rate
   filter :status, as: :select, collection: Order.statuses.keys
 
   form do |f|
     f.inputs do
-      f.input :user
-      f.input :address
+      f.input :user, as: :select, collection: User.all.map { |user| [user.email, user.id] }
+      f.input :address, as: :select, collection: Address.all.map { |address| ["#{address.street}, #{address.city}, #{address.province.name}, #{address.postal_code}", address.id] }
+      f.input :gst_rate
+      f.input :pst_rate
+      f.input :hst_rate
       f.input :status, as: :select, collection: Order.statuses.keys
       f.has_many :order_items, allow_destroy: true, new_record: true do |oi|
         oi.input :product
         oi.input :quantity
+        oi.input :unit_price
       end
     end
     f.actions
@@ -39,6 +49,9 @@ ActiveAdmin.register Order do
       row :user
       row :address
       row :total_price
+      row :gst_rate
+      row :pst_rate
+      row :hst_rate
       row :tax_amount
       row :grand_total
       row :status
