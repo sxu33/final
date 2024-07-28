@@ -26,6 +26,13 @@ class OrdersController < ApplicationController
     @order = current_user.orders.build(order_params)
     @order.total_price = current_user.cart.total_price
     @order.status = "unpaid"
+    
+    address = current_user.addresses.find(params[:order][:address_id])
+    tax_rate = calculate_tax_rate(address)
+    @order.gst_rate = tax_rate.gst
+    @order.pst_rate = tax_rate.pst
+    @order.hst_rate = tax_rate.hst
+
 
     if @order.save
       create_order_items

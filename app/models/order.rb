@@ -9,8 +9,7 @@ class Order < ApplicationRecord
   enum status: { unpaid: 0, paid: 1, shipped: 2 }
 
   def tax_amount
-    tax_rate = address.province.tax_rate
-    total_price * (tax_rate.gst + tax_rate.pst + tax_rate.hst)
+    total_price * (gst_rate + pst_rate + hst_rate)
   end
 
   def grand_total
@@ -18,12 +17,10 @@ class Order < ApplicationRecord
   end
 
   def self.ransackable_attributes(auth_object = nil)
-    ["id", "user_id", "address_id", "total_price", "status", "created_at", "updated_at"]
+    ["id", "user_id", "address_id", "total_price", "status", "gst_rate", "pst_rate", "hst_rate", "created_at", "updated_at"]
   end
 
   def self.ransackable_associations(auth_object = nil)
     ["user", "address", "order_items", "products"]
   end
-
-  end
-
+end
