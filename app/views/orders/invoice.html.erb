@@ -5,6 +5,8 @@
     <p><strong>Order ID:</strong> <%= @order.id %></p>
     <p><strong>Status:</strong> <%= @order.status %></p>
     <p><strong>Total Price:</strong> <%= number_to_currency(@order.total_price) %></p>
+    <p><strong>Tax:</strong> <%= number_to_currency(@order.tax_amount) %></p>
+    <p><strong>Grand Total:</strong> <%= number_to_currency(@order.grand_total) %></p>
 
     <h2 class="text-xl font-bold mb-2">Shipping Address</h2>
     <p><%= @order.address.street %>, <%= @order.address.city %>, <%= @order.address.province.name %>, <%= @order.address.postal_code %></p>

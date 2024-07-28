@@ -10,8 +10,29 @@
         <p><%= address.street %>, <%= address.city %>, <%= address.province.name %>, <%= address.postal_code %></p>
         <div class="mt-2">
           <%= link_to 'Edit', edit_address_path(address), class: "text-blue-500 hover:underline" %> |
-            <%= button_to 'Delete', address_path(address), method: :delete, form: { data: { turbo_confirm: 'Are you sure?' } }, class: "text-red-500 hover:underline" %>
-          </div>
+          <%= button_to 'Delete', address_path(address), method: :delete, form: { data: { turbo_confirm: 'Are you sure?' } }, class: "text-red-500 hover:underline" %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+
+  <h2 class="text-xl font-bold mb-2 mt-8">Orders</h2>
+  <ul class="space-y-4">
+    <% @orders.each do |order| %>
+      <li class="bg-white shadow-md rounded p-4">
+        <p><strong>Order ID:</strong> <%= order.id %></p>
+        <p><strong>User:</strong> <%= current_user.email %></p>
+        <p><strong>Order Date:</strong> <%= order.created_at.in_time_zone('Central Time (US & Canada)').strftime("%B %d, %Y %H:%M") %></p>
+        <p><strong>Status:</strong> <%= order.status %></p>
+        <p><strong>Total Price:</strong> <%= number_to_currency(order.total_price) %></p>
+        <p><strong>Tax:</strong> <%= number_to_currency(order.tax_amount) %></p>
+        <p><strong>Grand Total:</strong> <%= number_to_currency(order.grand_total) %></p>
+        <h3 class="text-lg font-bold mt-2">Order Items:</h3>
+        <ul>
+          <% order.order_items.each do |item| %>
+            <li><%= item.product.name %> - <%= item.quantity %> x <%= number_to_currency(item.unit_price) %> = <%= number_to_currency(item.quantity * item.unit_price) %></li>
+          <% end %>
+        </ul>
       </li>
     <% end %>
   </ul>

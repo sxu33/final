@@ -24,7 +24,7 @@ class OrdersController < ApplicationController
 
   def create
     @order = current_user.orders.build(order_params)
-    @order.total_price = calculate_total_price
+    @order.total_price = current_user.cart.total_price
     @order.status = "unpaid"
 
     if @order.save
@@ -57,13 +57,6 @@ class OrdersController < ApplicationController
   def calculate_tax_rate(address)
     return TaxRate.new(gst: 0, pst: 0, hst: 0) if address.nil?
     address.province.tax_rate
-  end
-
-  def calculate_total_price
-    total = current_user.cart.cart_items.sum { |item| item.product.price * item.quantity }
-    address = current_user.addresses.find(params[:order][:address_id])
-    tax_rate = address.province.tax_rate
-    total * (1 + tax_rate.gst + tax_rate.pst + tax_rate.hst)
   end
 
   def create_order_items
