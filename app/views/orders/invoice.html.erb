@@ -1,0 +1,19 @@
+<div class="container mx-auto mt-8">
+  <h1 class="text-2xl font-bold mb-4">Invoice</h1>
+  <div class="bg-white shadow-md rounded p-4">
+    <h2 class="text-xl font-bold mb-2">Order Summary</h2>
+    <p><strong>Order ID:</strong> <%= @order.id %></p>
+    <p><strong>Status:</strong> <%= @order.status %></p>
+    <p><strong>Total Price:</strong> <%= number_to_currency(@order.total_price) %></p>
+
+    <h2 class="text-xl font-bold mb-2">Shipping Address</h2>
+    <p><%= @order.address.street %>, <%= @order.address.city %>, <%= @order.address.province.name %>, <%= @order.address.postal_code %></p>
+
+    <h2 class="text-xl font-bold mb-2">Order Items</h2>
+    <ul>
+      <% @order.order_items.each do |item| %>
+        <li><%= item.product.name %> - <%= item.quantity %> x <%= number_to_currency(item.unit_price) %> = <%= number_to_currency(item.quantity * item.unit_price) %></li>
+      <% end %>
+    </ul>
+  </div>
+</div>

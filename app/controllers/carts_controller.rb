@@ -28,6 +28,18 @@ class CartsController < ApplicationController
     redirect_to cart_path
   end
 
+   def checkout
+    @user = current_user
+    @addresses = @user.addresses
+    if @addresses.empty?
+      @address = Address.new
+    else
+      @address = @addresses.first
+    end
+    @cart_items = @cart.cart_items
+    @provinces = Province.all
+  end
+  
   private
 
   def set_cart

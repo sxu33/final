@@ -18,13 +18,12 @@
           <% @cart.cart_items.each do |item| %>
             <tr class="border-b">
               <td class="border px-4 py-2">
-  <% if item.product.image.attached? %>
-    <%= image_tag item.product.image, class: "object-cover rounded", size: "100x100" %>
-  <% else %>
-    <div class="w-16 h-16 bg-gray-200 rounded"></div>
-  <% end %>
-</td>
-
+                <% if item.product.image.attached? %>
+                  <%= image_tag item.product.image, class: "object-cover rounded", size: "100x100" %>
+                <% else %>
+                  <div class="w-16 h-16 bg-gray-200 rounded"></div>
+                <% end %>
+              </td>
               <td class="py-2 px-4"><%= item.product.name %></td>
               <td class="py-2 px-4"><%= number_to_currency(item.product.price) %></td>
               <td class="py-2 px-4">
@@ -33,7 +32,7 @@
                   <div class="flex items-center">
                     <%= number_field_tag :quantity, item.quantity, min: 1, class: "text-center w-12 mx-2 border border-gray-300 rounded" %>
                     <%= submit_tag 'Update', class: "hidden" %>
-                    <%= button_to 'Add to Cart', update_item_cart_path(product_id: item.product.id, quantity: item.quantity), method: :patch, class: "text-blue-500 hover:underline ml-2" %>
+                    <%= button_to 'Update', update_item_cart_path(product_id: item.product.id, quantity: item.quantity), method: :patch, class: "text-blue-500 hover:underline ml-2" %>
                   </div>
                 <% end %>
               </td>
@@ -48,6 +47,7 @@
     </div>
     <div class="mt-4">
       <h2 class="text-xl font-bold">Total: <%= number_to_currency(@cart.total_price) %></h2>
+      <%= link_to 'Checkout', new_order_path, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 inline-block" %>
     </div>
   <% else %>
     <p class="text-gray-700">Your cart is empty.</p>
