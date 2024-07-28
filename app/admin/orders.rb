@@ -1,5 +1,6 @@
+# app/admin/orders.rb
 ActiveAdmin.register Order do
-  permit_params :user_id, :address_id, :total_price, :status
+  permit_params :user_id, :address_id, :status, order_items_attributes: [:id, :product_id, :quantity, :_destroy]
 
   index do
     selectable_column
@@ -7,6 +8,8 @@ ActiveAdmin.register Order do
     column :user
     column :address
     column :total_price
+    column :tax_amount
+    column :grand_total
     column :status
     actions
   end
@@ -14,14 +17,19 @@ ActiveAdmin.register Order do
   filter :user
   filter :address
   filter :total_price
+  filter :tax_amount
+  filter :grand_total
   filter :status, as: :select, collection: Order.statuses.keys
 
   form do |f|
     f.inputs do
       f.input :user
       f.input :address
-      f.input :total_price
       f.input :status, as: :select, collection: Order.statuses.keys
+      f.has_many :order_items, allow_destroy: true, new_record: true do |oi|
+        oi.input :product
+        oi.input :quantity
+      end
     end
     f.actions
   end
@@ -31,7 +39,17 @@ ActiveAdmin.register Order do
       row :user
       row :address
       row :total_price
+      row :tax_amount
+      row :grand_total
       row :status
+    end
+    panel "Order Items" do
+      table_for order.order_items do
+        column :product
+        column :quantity
+        column :unit_price
+        column :total_price
+      end
     end
     active_admin_comments
   end
