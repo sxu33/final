@@ -1,23 +1,23 @@
 <nav class="bg-gray-800 text-white fixed w-full top-0 z-50">
-  <div class="container mx-auto flex flex-wrap justify-between items-center p-4">
-    <div class="flex space-x-4 items-center">
+  <div class="container mx-auto flex justify-between items-center p-4">
+    <div class="flex space-x-4">
       <div class="text-2xl font-bold">Fashion Hub</div>
       <%= link_to 'Products', products_path, class: "hover:underline" %>
-
+      
       <div class="relative group">
-        <button class="hover:underline focus:outline-none">Categories</button>
+        <button class="hover:underline">Categories</button>
         <div class="absolute hidden group-hover:block bg-white text-black mt-2 rounded shadow-md">
           <% Category.all.each do |category| %>
             <%= link_to category.name, category_path(category), class: "block px-4 py-2 hover:bg-gray-200" %>
           <% end %>
         </div>
       </div>
-
+      
       <%= link_to 'About', about_path, class: "hover:underline" %>
       <%= link_to 'Contact', contact_path, class: "hover:underline" %>
     </div>
 
-    <div class="flex items-center space-x-4 ml-auto mt-4 sm:mt-0">
+    <div class="flex items-center space-x-4 ml-auto">
       <%= form_with url: search_products_path, method: :get, local: true, class: "flex items-center" do %>
         <input type="text" name="query" placeholder="Search..." class="p-2 rounded-l text-black">
         <select name="category_id" class="p-2 text-black bg-white">
@@ -28,7 +28,7 @@
         </select>
         <button type="submit" class="bg-blue-500 text-white p-2 rounded-r">Search</button>
       <% end %>
-
+      
       <% if user_signed_in? %>
         <%= link_to 'Account', user_account_path, class: "nav-link hover:bg-gray-700 px-3 py-2 rounded" %>
         <%= button_to 'Logout', destroy_user_session_path, method: :delete, class: "nav-link hover:bg-gray-700 px-3 py-2 rounded", data: { confirm: "Are you sure?" } %>
@@ -39,4 +39,5 @@
       <%= link_to 'Cart', cart_path, class: "nav-link hover:bg-gray-700 px-3 py-2 rounded" %>
     </div>
   </div>
+
 </nav>
