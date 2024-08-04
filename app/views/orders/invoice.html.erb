@@ -1,21 +1,31 @@
-<div class="container mx-auto mt-8">
-  <h1 class="text-2xl font-bold mb-4">Invoice</h1>
-  <div class="bg-white shadow-md rounded p-4">
-    <h2 class="text-xl font-bold mb-2">Order Summary</h2>
-    <p><strong>Order ID:</strong> <%= @order.id %></p>
-    <p><strong>Status:</strong> <%= @order.status %></p>
-    <p><strong>Total Price:</strong> <%= number_to_currency(@order.total_price) %></p>
-    <p><strong>Tax:</strong> <%= number_to_currency(@order.tax_amount) %></p>
-    <p><strong>Grand Total:</strong> <%= number_to_currency(@order.grand_total) %></p>
+<div class="container mx-auto mt-8 flex justify-center">
+  <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-4xl">
+    <h1 class="text-2xl font-bold mb-4 text-center">Invoice</h1>
+    <div class="border-b pb-4 mb-4">
+      <h2 class="text-xl font-bold mb-4">Order Summary</h2>
+      <div class="mb-4">
+        <p class="font-semibold">Order ID: <span class="font-normal"><%= @order.id %></span></p>
+        <p class="font-semibold">Status: <span class="font-normal"><%= @order.status %></span></p>
+        <p class="font-semibold">Total Price: <span class="font-normal"><%= number_to_currency(@order.total_price) %></span></p>
+        <p class="font-semibold">Tax: <span class="font-normal"><%= number_to_currency(@order.tax_amount) %></span></p>
+        <p class="font-semibold">Grand Total: <span class="font-normal"><%= number_to_currency(@order.grand_total) %></span></p>
+      </div>
+    </div>
 
-    <h2 class="text-xl font-bold mb-2">Shipping Address</h2>
-    <p><%= @order.address.street %>, <%= @order.address.city %>, <%= @order.address.province.name %>, <%= @order.address.postal_code %></p>
+    <div class="border-b pb-4 mb-4">
+      <h2 class="text-xl font-bold mb-4">Shipping Address</h2>
+      <div class="mb-4">
+        <p><%= @order.address.street %>, <%= @order.address.city %>, <%= @order.address.province.name %>, <%= @order.address.postal_code %></p>
+      </div>
+    </div>
 
-    <h2 class="text-xl font-bold mb-2">Order Items</h2>
-    <ul>
-      <% @order.order_items.each do |item| %>
-        <li><%= item.product.name %> - <%= item.quantity %> x <%= number_to_currency(item.unit_price) %> = <%= number_to_currency(item.total_price) %></li>
-      <% end %>
-    </ul>
+    <div>
+      <h2 class="text-xl font-bold mb-4">Order Items</h2>
+      <ul class="list-disc list-inside space-y-2">
+        <% @order.order_items.each do |item| %>
+          <li><%= item.product.name %> - <%= item.quantity %> x <%= number_to_currency(item.unit_price) %> = <%= number_to_currency(item.total_price) %></li>
+        <% end %>
+      </ul>
+    </div>
   </div>
 </div>
