@@ -1,39 +1,46 @@
-<div class="container mx-auto mt-8">
-  <h1 class="text-2xl font-bold mb-4">Account Information</h1>
+<div class="container mx-auto mt-8 px-4">
+  <h1 class="text-3xl font-bold mb-8 text-center">Account Information</h1>
 
-  <h2 class="text-xl font-bold mb-2">Addresses</h2>
-  <%= link_to 'New Address', new_address_path, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-block mb-4" %>
+  <!-- Addresses Section -->
+  <div class="bg-white shadow-lg rounded-lg p-6 mb-8">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-2xl font-bold">Addresses</h2>
+      <%= link_to 'New Address', new_address_path, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+    </div>
+    <ul class="space-y-4">
+      <% @addresses.each do |address| %>
+        <li class="bg-gray-100 shadow-sm rounded p-4">
+          <p class="text-lg"><%= address.street %>, <%= address.city %>, <%= address.province.name %>, <%= address.postal_code %></p>
+          <div class="mt-2">
+            <%= link_to 'Edit', edit_address_path(address), class: "text-blue-500 hover:underline mr-4" %>
+            <%= button_to 'Delete', address_path(address), method: :delete, form: { data: { turbo_confirm: 'Are you sure?' } }, class: "text-red-500 hover:underline" %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 
-  <ul class="space-y-4">
-    <% @addresses.each do |address| %>
-      <li class="bg-white shadow-md rounded p-4">
-        <p><%= address.street %>, <%= address.city %>, <%= address.province.name %>, <%= address.postal_code %></p>
-        <div class="mt-2">
-          <%= link_to 'Edit', edit_address_path(address), class: "text-blue-500 hover:underline" %> |
-          <%= button_to 'Delete', address_path(address), method: :delete, form: { data: { turbo_confirm: 'Are you sure?' } }, class: "text-red-500 hover:underline" %>
-        </div>
-      </li>
-    <% end %>
-  </ul>
-
-  <h2 class="text-xl font-bold mb-2 mt-8">Orders</h2>
-  <ul class="space-y-4">
-    <% @orders.each do |order| %>
-      <li class="bg-white shadow-md rounded p-4">
-        <p><strong>Order ID:</strong> <%= order.id %></p>
-        <p><strong>User:</strong> <%= current_user.email %></p>
-        <p><strong>Order Date:</strong> <%= order.created_at.in_time_zone('Central Time (US & Canada)').strftime("%B %d, %Y %H:%M") %></p>
-        <p><strong>Status:</strong> <%= order.status %></p>
-        <p><strong>Total Price:</strong> <%= number_to_currency(order.total_price) %></p>
-        <p><strong>Tax:</strong> <%= number_to_currency(order.tax_amount) %></p>
-        <p><strong>Grand Total:</strong> <%= number_to_currency(order.grand_total) %></p>
-        <h3 class="text-lg font-bold mt-2">Order Items:</h3>
-        <ul>
-          <% order.order_items.each do |item| %>
-            <li><%= item.product.name %> - <%= item.quantity %> x <%= number_to_currency(item.unit_price) %> = <%= number_to_currency(item.total_price) %></li>
-          <% end %>
-        </ul>
-      </li>
-    <% end %>
-  </ul>
+  <!-- Orders Section -->
+  <div class="bg-white shadow-lg rounded-lg p-6">
+    <h2 class="text-2xl font-bold mb-4">Orders</h2>
+    <ul class="space-y-4">
+      <% @orders.each do |order| %>
+        <li class="bg-gray-100 shadow-sm rounded p-4">
+          <p class="text-lg"><strong>Order ID:</strong> <%= order.id %></p>
+          <p class="text-lg"><strong>User:</strong> <%= current_user.email %></p>
+          <p class="text-lg"><strong>Order Date:</strong> <%= order.created_at.in_time_zone('Central Time (US & Canada)').strftime("%B %d, %Y %H:%M") %></p>
+          <p class="text-lg"><strong>Status:</strong> <%= order.status %></p>
+          <p class="text-lg"><strong>Total Price:</strong> <%= number_to_currency(order.total_price) %></p>
+          <p class="text-lg"><strong>Tax:</strong> <%= number_to_currency(order.tax_amount) %></p>
+          <p class="text-lg"><strong>Grand Total:</strong> <%= number_to_currency(order.grand_total) %></p>
+          <h3 class="text-xl font-bold mt-4">Order Items:</h3>
+          <ul class="list-disc list-inside ml-4">
+            <% order.order_items.each do |item| %>
+              <li class="text-lg"><%= item.product.name %> - <%= item.quantity %> x <%= number_to_currency(item.unit_price) %> = <%= number_to_currency(item.total_price) %></li>
+            <% end %>
+          </ul>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 </div>
