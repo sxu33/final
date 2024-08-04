@@ -1,60 +1,69 @@
 <div class="container mx-auto mt-8">
   <h1 class="text-2xl font-bold mb-4">Checkout</h1>
-  <div class="flex">
-    <div class="w-1/2">
-      <h2 class="text-xl font-bold mb-2">User Information</h2>
-      <p><strong>Email:</strong> <%= current_user.email %></p>
-      <h2 class="text-xl font-bold mb-2">Shipping Address</h2>
-      <% if @addresses.empty? %>
-        <%= form_for @address, url: create_address_orders_path, method: :post do |f| %>
-          <div class="mb-4">
-            <%= f.label :street, class: "block text-gray-700" %>
-            <%= f.text_field :street, class: "mt-1 block w-full p-2 border rounded" %>
-          </div>
-          <div class="mb-4">
-            <%= f.label :city, class: "block text-gray-700" %>
-            <%= f.text_field :city, class: "mt-1 block w-full p-2 border rounded" %>
-          </div>
-          <div class="mb-4">
-            <%= f.label :province_id, "Province", class: "block text-gray-700" %>
-            <%= f.collection_select :province_id, Province.all, :id, :name, {}, class: "mt-1 block w-full p-2 border rounded" %>
-          </div>
-          <div class="mb-4">
-            <%= f.label :postal_code, class: "block text-gray-700" %>
-            <%= f.text_field :postal_code, class: "mt-1 block w-full p-2 border rounded" %>
-          </div>
-          <div class="actions">
-            <%= f.submit "Save Address", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
-          </div>
+  <div class="flex flex-wrap -mx-4">
+    <div class="w-full md:w-1/2 px-4">
+      <div class="bg-white shadow-md rounded p-4">
+        <h2 class="text-xl font-bold mb-2">User Information</h2>
+        <p><strong>Email:</strong> <%= current_user.email %></p>
+        <h2 class="text-xl font-bold mb-2 mt-4">Shipping Address</h2>
+        <% if @addresses.empty? %>
+          <%= form_for @address, url: create_address_orders_path, method: :post do |f| %>
+            <div class="mb-4">
+              <%= f.label :street, class: "block text-gray-700" %>
+              <%= f.text_field :street, class: "mt-1 block w-full p-2 border rounded" %>
+            </div>
+            <div class="mb-4">
+              <%= f.label :city, class: "block text-gray-700" %>
+              <%= f.text_field :city, class: "mt-1 block w-full p-2 border rounded" %>
+            </div>
+            <div class="mb-4">
+              <%= f.label :province_id, "Province", class: "block text-gray-700" %>
+              <%= f.collection_select :province_id, Province.all, :id, :name, {}, class: "mt-1 block w-full p-2 border rounded" %>
+            </div>
+            <div class="mb-4">
+              <%= f.label :postal_code, class: "block text-gray-700" %>
+              <%= f.text_field :postal_code, class: "mt-1 block w-full p-2 border rounded" %>
+            </div>
+            <div class="actions">
+              <%= f.submit "Save Address", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+            </div>
+          <% end %>
+        <% else %>
+          <%= form_for @order do |f| %>
+            <div class="mb-4">
+              <%= f.label :address_id, "Select Address", class: "block text-gray-700" %>
+              <%= f.collection_select :address_id, @addresses, :id, :full_address, {}, class: "mt-1 block w-full p-2 border rounded" %>
+            </div>
+            <div class="actions">
+              <%= f.submit "Continue to Payment", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+            </div>
+          <% end %>
         <% end %>
-      <% else %>
-        <%= form_for @order do |f| %>
-          <%= f.collection_select :address_id, @addresses, :id, :full_address, {}, class: "mt-1 block w-full p-2 border rounded" %>
-          <div class="actions">
-            <%= f.submit "Continue to Payment", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
-          </div>
-        <% end %>
-      <% end %>
+      </div>
     </div>
- 
-    <div class="w-1/2">
-      <h2 class="text-xl font-bold mb-2">Invoice</h2>
-      <ul>
-        <% @cart_items.each do |item| %>
-          <li>
-            <%= item.product.name %> - <%= item.quantity %> x <%= number_to_currency(item.product.price) %> = <%= number_to_currency(item.quantity * item.product.price) %>
-          </li>
+
+    <div class="w-full md:w-1/2 px-4">
+      <div class="bg-white shadow-md rounded p-4">
+        <h2 class="text-xl font-bold mb-2">Invoice</h2>
+        <div class="overflow-x-auto">
+          <ul>
+            <% @cart_items.each do |item| %>
+              <li class="mb-2">
+                <%= item.product.name %> - <%= item.quantity %> x <%= number_to_currency(item.product.price) %> = <%= number_to_currency(item.quantity * item.product.price) %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+        <p class="mt-4"><strong>Subtotal:</strong> <%= number_to_currency(@cart_items.sum { |item| item.quantity * item.product.price }) %></p>
+        <% if @addresses.present? %>
+          <p><strong>GST:</strong> <%= number_to_currency(@cart_items.sum { |item| item.quantity * item.product.price } * @tax_rate.gst) %></p>
+          <p><strong>PST:</strong> <%= number_to_currency(@cart_items.sum { |item| item.quantity * item.product.price } * @tax_rate.pst) %></p>
+          <p><strong>HST:</strong> <%= number_to_currency(@cart_items.sum { |item| item.quantity * item.product.price } * @tax_rate.hst) %></p>
+          <p><strong>Total:</strong> <%= number_to_currency(@cart_items.sum { |item| item.quantity * item.product.price } * (1 + @tax_rate.gst + @tax_rate.pst + @tax_rate.hst)) %></p>
+        <% else %>
+          <p><strong>Total:</strong> <%= number_to_currency(@cart_items.sum { |item| item.quantity * item.product.price }) %></p>
         <% end %>
-      </ul>
-      <p><strong>Subtotal:</strong> <%= number_to_currency(@cart_items.sum { |item| item.quantity * item.product.price }) %></p>
-      <% if @addresses.present? %>
-        <p><strong>GST:</strong> <%= number_to_currency(@cart_items.sum { |item| item.quantity * item.product.price } * @tax_rate.gst) %></p>
-        <p><strong>PST:</strong> <%= number_to_currency(@cart_items.sum { |item| item.quantity * item.product.price } * @tax_rate.pst) %></p>
-        <p><strong>HST:</strong> <%= number_to_currency(@cart_items.sum { |item| item.quantity * item.product.price } * @tax_rate.hst) %></p>
-        <p><strong>Total:</strong> <%= number_to_currency(@cart_items.sum { |item| item.quantity * item.product.price } * (1 + @tax_rate.gst + @tax_rate.pst + @tax_rate.hst)) %></p>
-      <% else %>
-        <p><strong>Total:</strong> <%= number_to_currency(@cart_items.sum { |item| item.quantity * item.product.price }) %></p>
-      <% end %>
+      </div>
     </div>
   </div>
 </div>
