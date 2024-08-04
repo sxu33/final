@@ -5,6 +5,8 @@ class Address < ApplicationRecord
   has_many :orders
 
   validates :street, :city, :province_id, :postal_code, presence: true
+  validates :postal_code, format: { with: /\A[0-9a-zA-Z]+\z/, message: "only allows letters and numbers" }
+
 
   def full_address
     "#{street}, #{city}, #{province.name}, #{postal_code}"

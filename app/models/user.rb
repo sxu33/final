@@ -11,4 +11,7 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :addresses, allow_destroy: true
 
    has_many :orders
+
+   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+
 end

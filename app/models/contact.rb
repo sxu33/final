@@ -7,4 +7,6 @@ class Contact < ApplicationRecord
   def self.ransackable_associations(auth_object = nil)
     []
   end
+   validates :title, presence: true
+  validates :content, presence: true
 end

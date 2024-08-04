@@ -3,6 +3,8 @@ class Cart < ApplicationRecord
   has_many :cart_items, dependent: :destroy
   has_many :products, through: :cart_items
 
+  validates_associated :cart_items
+
   def add_product(product_id)
     current_item = cart_items.find_by(product_id: product_id)
     if current_item
