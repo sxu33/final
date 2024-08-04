@@ -1,6 +1,6 @@
 <nav class="bg-gray-800 text-white fixed w-full top-0 z-50">
-  <div class="container mx-auto flex justify-between items-center p-4">
-    <div class="flex space-x-4">
+  <div class="container mx-auto flex flex-wrap justify-between items-center p-4">
+    <div class="flex space-x-4 items-center">
       <div class="text-2xl font-bold">Fashion Hub</div>
       <%= link_to 'Products', products_path, class: "hover:underline" %>
 
@@ -17,7 +17,7 @@
       <%= link_to 'Contact', contact_path, class: "hover:underline" %>
     </div>
 
-    <div class="flex items-center space-x-4 ml-auto">
+    <div class="flex items-center space-x-4 ml-auto mt-4 sm:mt-0">
       <%= form_with url: search_products_path, method: :get, local: true, class: "flex items-center" do %>
         <input type="text" name="query" placeholder="Search..." class="p-2 rounded-l text-black">
         <select name="category_id" class="p-2 text-black bg-white">

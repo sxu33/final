@@ -1,33 +1,33 @@
-<div class="container mx-auto">
+<div class="container mx-auto my-8">
+  <h1 class="text-2xl font-bold mb-6">Product List</h1>
 
-  
-  <h1 class="text-xl font-bold my-4">Product List</h1>
-
-  <div class="flex justify-between items-center my-4">
+  <div class="flex justify-between items-center mb-6">
     <h1 class="text-xl font-bold">Products</h1>
     <%= form_with url: products_path, method: :get, local: true, class: "flex items-center" do %>
       <label for="sort_by" class="mr-2">Sort by:</label>
-      <%= select_tag :sort_by, options_for_select([['Default', ''], ['On Sale', 'on_sale'], ['New Arrivals', 'new_arrivals'], ['Recently Updated', 'recently_updated']], @sort_by), onchange: 'this.form.submit();', class: "form-select" %>
+      <%= select_tag :sort_by, options_for_select([['Default', ''], ['On Sale', 'on_sale'], ['New Arrivals', 'new_arrivals'], ['Recently Updated', 'recently_updated']], @sort_by), onchange: 'this.form.submit();', class: "form-select bg-white text-black p-2 rounded" %>
     <% end %>
   </div>
-  <div class="grid grid-cols-4 gap-4">
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
     <% @products.each do |product| %>
-      <div class="bg-white shadow-md rounded p-4">
+      <div class="bg-white shadow-md rounded-lg p-4">
         <% if product.image.attached? %>
-          <%= image_tag product.image, class: "w-full h-48 object-cover rounded" %>
+          <%= image_tag product.image, class: "w-full h-48 object-cover rounded mb-4" %>
         <% else %>
-          <div class="w-full h-48 bg-gray-200 rounded"></div>
+          <div class="w-full h-48 bg-gray-200 rounded mb-4"></div>
         <% end %>
-        <div class="mt-4">
-            <p class="border px-4 py-2"><strong>Name:</strong> <%= link_to product.name, product_path(product), class: "text-blue-500 hover:underline" %></p>
-          <p class="border px-4 py-2"><strong>Category:</strong> <%= product.category.name %></p>
-          <p class="border px-4 py-2"><strong>Price:</strong> <%= product.price %></p>
-          <%= button_to 'Add to Cart', add_item_cart_path(product_id: product.id), method: :post, class: "mt-2 bg-blue-500 text-white p-2 rounded" %>
+        <div class="border p-4 rounded">
+          <p><strong>Name:</strong> <%= link_to product.name, product_path(product), class: "text-blue-500 hover:underline" %></p>
+          <p><strong>Category:</strong> <%= product.category.name %></p>
+          <p><strong>Price:</strong> <%= product.price %></p>
+          <%= button_to 'Add to Cart', add_item_cart_path(product_id: product.id), method: :post, class: "mt-2 bg-blue-500 text-white p-2 rounded w-full text-center" %>
         </div>
       </div>
     <% end %>
   </div>
-  <div class="mt-4">
+
+  <div class="mt-6">
     <%= paginate @products %>
   </div>
 </div>
